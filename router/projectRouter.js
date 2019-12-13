@@ -13,6 +13,24 @@ router.get('/', async (req, res)=>{
             error: err
         })
     }
+});
+
+router.get('/:id', validateProjectId(), async (req, res)=>{
+    const id = req.id;
+ 
+    try {
+        const project = await db.get(id);
+        project===null ? 
+        res.status(200).json({
+            message: `Could't find project at ${id}`})
+            :
+        res.status(200).send(await db.get(id));
+    } catch (err){
+        res.status(404).json({
+            message: 'Error', 
+            error: err
+        })
+    }
 })
 router.post('/', validateProjectBody(), async (req, res)=>{
 
@@ -25,12 +43,33 @@ router.post('/', validateProjectBody(), async (req, res)=>{
         })
     }
 })
+
 router.put('/:id', validateProjectId(), validateProjectBody(), async (req, res)=>{
     const {name, description} = req.body;
     const id = req.id;
  
     try {
         res.status(200).send(await db.update(id, {name, description}));
+    } catch (err){
+        res.status(404).json({
+            message: 'Error', 
+            error: err
+        })
+    }
+})
+
+router.delete('/:id', validateProjectId(), async (req, res)=>{
+    const id = req.id;
+    try {
+        const projectToDelete = await db.remove(id)
+        if(projectToDelete === 0){
+           return res.status(500).json({
+                message: `Project at ${id} doesn't exist`
+            })
+        }
+        res.status(200).json({
+            message: 'Delete successful',
+            deleteCopunt:  projectToDelete});
     } catch (err){
         res.status(404).json({
             message: 'Error', 
