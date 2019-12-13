@@ -5,7 +5,7 @@ const projectRouter = require('./router/projectRouter');
 
 app.use(express.json());
 
-app.get('/', (req, res) => res.send('<h2> Welcome to web challenge api spritt<h2>'))
+app.get('/', (req, res) => res.send('<h2> Welcome to web challenge api sprint<h2>'))
 
 app.use('/api/project', projectRouter);
 
