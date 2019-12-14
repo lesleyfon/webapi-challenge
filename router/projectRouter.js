@@ -1,9 +1,10 @@
 const express = require('express');
-router = express.Router();
+const router = express.Router();
 const db = require('./../data/helpers//projectModel');
+const actionRouter = require('./actionRouter');
 const { validateProjectBody , validateProjectId} = require('./../middleware/projectmiddleware')
 
-
+router.use('/:id/action', actionRouter)
 router.get('/', async (req, res)=>{
     try {
         res.status(200).send(await db.get())

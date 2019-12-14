@@ -14,11 +14,11 @@ const validateProjectId = () => (req, res, next) =>{
     const id = req.params.id;
     if(!id){
         return res.status(500).json({
-            message: 'Please provide an id'
+            message: 'Please provide the required information for the request body'
             });
-    }
+    } 
     req.id = id;
-    next(); 
+    next()
 }
 module.exports = {
     validateProjectBody,
